@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useCart } from "@/hooks/use-cart";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProduct } from "@/api/products";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/products/$productId")({
 });
 
 function ProductPage() {
+  const { addToCart } = useCart();
   const { productId } = Route.useParams();
   const parsedProductId = Number(productId);
   const isInvalidProductId = Number.isNaN(parsedProductId);
@@ -64,7 +66,7 @@ function ProductPage() {
             Rating: {product.rating} / 5
           </p>
           <p className="mt-4 text-muted-foreground">{product.description}</p>
-          <Button className="mt-6" size="lg">
+          <Button className="mt-6" size="lg" onClick={() => addToCart(product)}>
             Add to Cart
           </Button>
         </div>
